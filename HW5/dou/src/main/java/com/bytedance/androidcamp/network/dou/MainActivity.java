@@ -76,39 +76,19 @@ public class MainActivity extends AppCompatActivity {
                 if (getString(R.string.select_an_image).equals(s)) {
 
                     //@TODO 1填充选择图片的功能
-                    try{
                         chooseImage();
-                    }
-                    catch (Exception e) {
-                        Log.d(TAG, e.getMessage());
-                        Toast.makeText(MainActivity.this, "Failure: choose image!", Toast.LENGTH_SHORT).show();
-                    }
 
                 } else if (getString(R.string.select_a_video).equals(s)) {
 
                     //@TODO 2填充选择视频的功能
-                    try{
                         chooseVideo();
-                    }
-                    catch (Exception e) {
-                        Log.d(TAG, e.getMessage());
-                        Toast.makeText(MainActivity.this, "Fail: choose video!", Toast.LENGTH_SHORT).show();
-                    }
+
 
                 } else if (getString(R.string.post_it).equals(s)) {
                     if (mSelectedVideo != null && mSelectedImage != null) {
 
                         //@TODO 3调用上传功能
-                        try{
-                            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                                postVideo();
-                            } else {
-                                requestStoragePermission();
-                            }
-                        } catch (Exception e) {
-                            Log.d(TAG, e.getMessage());
-                            Toast.makeText(MainActivity.this, "Fail at posting!", Toast.LENGTH_SHORT).show();
-                        }
+                        postVideo();
 
                     } else {
                         throw new IllegalArgumentException("error data uri, mSelectedVideo = "
@@ -125,35 +105,6 @@ public class MainActivity extends AppCompatActivity {
         mBtnRefresh = findViewById(R.id.btn_refresh);
     }
 
-
-    /**
-     *  from: https://codinginflow.com/tutorials/android/run-time-permission-request
-     */
-    private void requestStoragePermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            new AlertDialog.Builder(this)
-                    .setTitle("Permission needed")
-                    .setMessage("This permission is needed because of the requirement of uploading local files.")
-                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(MainActivity.this,
-                                    new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
-                        }
-                    })
-                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .create().show();
-        } else {
-            ActivityCompat.requestPermissions(this,
-                    new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
-        }
-    }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView img;
